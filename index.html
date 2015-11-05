@@ -14,6 +14,12 @@
 		</style>
 	</head>
 	<body>
+
+
+	<!-- three container for the renderers -->
+	<div id='r1' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+	<div id='r2' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+	<div id='r3' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
 		
 	<!--	<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
 		<script type = "text/javascript" src = "js/xtk.js"></script>
@@ -21,19 +27,44 @@
 			window.onload = function() {
 
 			  // create and initialize a 3D renderer
-			  var r = new X.renderer3D();
-			  r.init();
+			  var r1 = new X.renderer3D();
+			  r1.container = 'r1';
+			  r1.init();
+			  r1.camera.position = [0, 0, -100];
+			//  r1.camera.up = [0, 1, 0];
 			  
-			  // create a cube
-			  cube = new X.cube();
-			  // skin it..
-			  cube.texture.file = 'http://x.babymri.org/?xtk.png';
+			  var r2 = new X.renderer3D();
+			  r2.container = 'r2';
+			  r2.init();
+			  r2.camera.position = [100,0,0];
+			  //r2.camera.up = [0, 1,0]
+
+			  var r3 = new X.renderer3D();
+			  r3.container = 'r3';
+			  r3.init();
+			  r3.camera.position = [0, 100, 0];
+
+			  var mesh = new X.mesh();
+			  mesh.file = 'http://x.babymri.org/?avf.vtk';
+
 			  
-			  cube.lengthX = cube.lengthY = cube.lengthZ = 20;
+			  r1.add(mesh); // add the mesh to the renderer
+			  // start the loading of the .VTK file and display it on renderer r1.
+  			  // once the file was fully loaded, the r1.onShowtime function is executed
+  			  r1.render();
+
+			  //the onShowtime function gets executed, once the renderer r1 completely loaded the .VTK file;
+			  r1.onShowtime = function(){
+			  	//since the mesh was loaded , we add it now to the other renderers
+			  	//this way, the .vtk file is loaded only once.
+			  	r2.add(mesh);
+			  	r3.add(mesh);
+
+			  	r2.render();
+			  	r3.render();
+			  }
 			  
-			  r.add(cube); // add the cube to the renderer
-			  r.render(); // ..and render it
-			  
+			  /*
 			  // add some animation
 			  r.onRender = function() {
 
@@ -42,9 +73,10 @@
 			    cube.transform.rotateZ(1);
 			    cube.transform.rotateY(1);
 			    
-			  };
+			  };*/
 			  
 		};
+
 		</script>
 	</body>
 </html>
