@@ -5,7 +5,6 @@
 		<title>xtk Brain Viewer</title>
 		<style>
 			html,body { 
-			  background-color:#000;
 			  margin: 0;
 			  padding: 0;
 			  height: 100%;
@@ -15,68 +14,66 @@
 	</head>
 	<body>
 
+	<div id="page-wrapper">
+		<h1>Xtk Brain Viewer</h1>
 
-	<!-- three container for the renderers -->
-	<div id='r1' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
-	<div id='r2' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
-	<div id='r3' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+		<div>
+			Upload Volume File: 
+			<input type="file" id="fileInput">
+		</div>
+		<div id= "fileDisplayArea"></div>
+		<!-- three container for the renderers -->
+		<div id='rend1' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+		<div id='rend2' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+		<div id='rend3' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
 		
-	<!--	<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
-		<script type = "text/javascript" src = "js/xtk.js"></script>
-		<script type="text/javascript"> 
-			window.onload = function() {
+		<script type = "text/javascript" src = "assets/js/xtk.js"></script>
+		<script type="text/javascript" src = "js/renderer.js"></script>
+		
+		<script type="text/javascript">
 
-			  // create and initialize a 3D renderer
-			  var r1 = new X.renderer3D();
-			  r1.container = 'r1';
-			  r1.init();
-			  r1.camera.position = [0, 0, -100];
-			//  r1.camera.up = [0, 1, 0];
-			  
-			  var r2 = new X.renderer3D();
-			  r2.container = 'r2';
-			  r2.init();
-			  r2.camera.position = [100,0,0];
-			  //r2.camera.up = [0, 1,0]
+		window.onload = function() {
+			var fileInput = document.getElementById('fileInput');
+			var fileDisplayArea = document.getElementById('fileDisplayArea');
 
-			  var r3 = new X.renderer3D();
-			  r3.container = 'r3';
-			  r3.init();
-			  r3.camera.position = [0, 100, 0];
+			_inputData = {
+				'brainMask':{'file':null, 'filedata':null},
+				'lhMesh':{'file':null, 'filedata':null},
+ 
+			};
 
-			  var mesh = new X.mesh();
-			  mesh.file = 'http://x.babymri.org/?avf.vtk';
 
-			  
-			  r1.add(mesh); // add the mesh to the renderer
-			  // start the loading of the .VTK file and display it on renderer r1.
-  			  // once the file was fully loaded, the r1.onShowtime function is executed
-  			  r1.render();
 
-			  //the onShowtime function gets executed, once the renderer r1 completely loaded the .VTK file;
-			  r1.onShowtime = function(){
-			  	//since the mesh was loaded , we add it now to the other renderers
-			  	//this way, the .vtk file is loaded only once.
-			  	r2.add(mesh);
-			  	r3.add(mesh);
 
-			  	r2.render();
-			  	r3.render();
-			  }
-			  
-			  /*
-			  // add some animation
-			  r.onRender = function() {
+			fileInput.addEventListener('change', function(e) {
+		 
+				_inputData['brainMask']['file'] = fileInput.files[0];
+				window.console.log('New data', _inputData);
+				
+				var reader = new FileReader();
+				reader.onerror = function (e){
+					console.log('Error:' + e.target.error.code);
+				};
+				reader.onload = function(e){
+					var data = reader.result;
+					console.log(data);
+					_inputData['brainMask']['filedata'] = data;
+					parse(_inputData);
+				};
+				// start reading this file
+     			reader.readAsArrayBuffer(_inputData['brainMask']['file']);		
+     				
 
-			    // rotation by 1 degree in X and Y directions
-			    cube.transform.rotateX(1);
-			    cube.transform.rotateZ(1);
-			    cube.transform.rotateY(1);
-			    
-			  };*/
-			  
-		};
+			});
+
+		}
 
 		</script>
+
+
+
+	</div>
 	</body>
 </html>
+
+
