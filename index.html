@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset=utf-8>
-		<title>xtk Brain Viewer</title>
+		<title>Brain Viewer</title>
 		<style>
 			html,body { 
 			  margin: 0;
@@ -14,8 +14,12 @@
 	</head>
 	<body>
 
+	<script type = "text/javascript" src = "assets/js/xtk.js"></script>
+	<script type="text/javascript" src = "js/renderer.js"></script>
+	<script type = "text/javascript" src = "assets/js/bootstrap.js"></script>
+
 	<div id="page-wrapper">
-		<h1>Xtk Brain Viewer</h1>
+		<h1>Brain Viewer</h1>
 
 		<div>
 			Upload Volume File: 
@@ -26,9 +30,9 @@
 		<div id='rend1' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
 		<div id='rend2' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
 		<div id='rend3' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
+		<div id='rend4' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
 		
-		<script type = "text/javascript" src = "assets/js/xtk.js"></script>
-		<script type="text/javascript" src = "js/renderer.js"></script>
+
 		
 		<script type="text/javascript">
 
@@ -43,7 +47,8 @@
 			};
 
 
-
+			//init r1;
+			r1 = null;
 
 			fileInput.addEventListener('change', function(e) {
 		 
@@ -62,7 +67,7 @@
 				};
 				// start reading this file
      			reader.readAsArrayBuffer(_inputData['brainMask']['file']);		
-     				
+
 
 			});
 
