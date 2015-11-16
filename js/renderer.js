@@ -1,27 +1,32 @@
 function	initializeRenderers() {
 	console.log("initializeRenderers");
-//	  if (r1) {
-//	    return;
-//	  }
+	  if (r1) {
+	    return;
+	  }
 
 	  // create and initialize a 3D renderer
 	  r1 = new X.renderer3D();
 	  r1.container = 'rend1';
 	  r1.init();
-	  r1.camera.position = [0, 0, -200];
-	//  r1.camera.up = [0, 1, 0];
+	  r1.camera.position = [0, 0, 300];
 	  
-	  r2 = new X.renderer3D();
+	  r2 = new X.renderer2D();
 	  r2.container = 'rend2';
+	  r2.orientation = 'X';
 	  r2.init();
-	  r2.camera.position = [200,0,0];
+	  
 	  //r2.camera.up = [0, 1,0]
 
-	  r3 = new X.renderer3D();
+	  r3 = new X.renderer2D();
 	  r3.container = 'rend3';
+	  r3.orientation = 'Y';
 	  r3.init();
-	  r3.camera.position = [0, 200, 0];
 
+	  r4 = new X.renderer2D();
+	  r4.container = 'rend4';
+	  r4.orientation = 'Z';
+	  r4.init();
+	  
 /*
 	  // create the left hemisphere mesh
 	  var lh = new X.mesh();
@@ -46,38 +51,21 @@ function	initializeRenderers() {
 */
 	r1.onShowtime = function() {
     
-    window.console.log('Loading completed.');
-    
-    
-    if (_inputData.brainMask.file != null) {
-      
-      // r1.add(brainMask);
-      // r1.render();
-      
-    }
-	  
-//	  r1.add(lh); // add the mesh to the renderer
-//	  r1.add(rh);
-	  // start the loading of the .VTK file and display it on renderer r1.
-		  // once the file was fully loaded, the r1.onShowtime function is executed
-		 // r1.render();
-		  /*
+	    window.console.log('Loading completed.');
+	    
+	    
+	    if (_inputData.brainMask.file != null) {
 
-	  //the onShowtime function gets executed, once the renderer r1 completely loaded the .VTK file;
-	  r1.onShowtime = function(){
-	  	//since the mesh was loaded , we add it now to the other renderers
-	  	//this way, the .vtk file is loaded only once.
-	  	r2.add(lh);
-	  	r2.add(rh);
-	  	r3.add(lh);
-	  	r3.add(rh);
+	       	r2.add(brainMask);
+		    r3.add(brainMask);
+		    r4.add(brainMask);
 
-	  	r2.render();
-	  	r3.render();
-	  }
-	  */
-
-	  
+		    r2.rend();
+		    r3.rend();
+		    r4.rend();
+	      
+	    }  
+  
 	}
 }
 
@@ -95,21 +83,22 @@ function parse(_inputData){
 	console.log("volume.file",brainMask.filedata);
 
 	r1.add(brainMask);	
-	console.log("OOKKKK?");
 
 	r1.render(); 
 
  	r1.onShowtime = function(){
  		window.console.log('Loading completed.');
- 		/*
+ 		
  		if(_inputData.brainMask.file !=null){
  			r2.add(brainMask);
  			r3.add(brainMask);
+ 			r4.add(brainMask);
 
  			r2.render();
  			r3.render();
+ 			r4.render();
  		}
- 		*/
+ 		
  	}  
 
 }
